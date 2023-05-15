@@ -1,3 +1,9 @@
+Command lines to run the project:
+
+1). Need to install modules - npm install
+2). For DATA.json server to run please type in the terminal the following: npx json-server --port 8080 --watch data.json
+3). Finaly run a react project by typing - 'npm start' command while in the project folder.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
