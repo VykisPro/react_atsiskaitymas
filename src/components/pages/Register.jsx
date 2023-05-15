@@ -1,97 +1,105 @@
-import styled from "styled-components";
-
-const StyledMain = styled.main`
-    min-height: calc(60vh - 100px - 75px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    > form {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-        > div {
-            width: 450px;
-            display: grid;
-            grid-template-columns: 150px 300px;
-            grid-template-rows: 2rem;
-            > label {
-                border: 3px solid black;
-                line-height: 2rem;
-                padding-left: 0.5rem;
-            }
-            > input {
-                border: none;
-                border: 3px solid black;
-                border-left: 0;
-            }
-        }
-        .genderPicker {
-            display: grid;
-            grid-template-columns: 50px 100px 50px 100px 50px 100px;
-            grid-template-rows: 2rem;
-            border: 3px solid black;
-            font-size: 1rem;
-            > label {
-                border: none;
-            }
-            > input{
-                height: 1rem;
-                margin: 0;
-                margin: auto 0;
-                margin-left: 1rem;
-                margin-right: auto;
-            }
-        }
-        > button {
-            width: 450px;
-            border: 3px solid black;
-            height: 2rem;
-            background-color: black;
-            font-size: 1.25rem;
-            color:white;
-        }
-        > button:hover{
-            cursor: pointer;
-            background-color: green;
-        }
-    }
-`;
-
+import { useFormik } from 'formik'
+import { useContext, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import * as Yup from 'yup'
+import UsersContext, { USERS_ACTION_TYPES } from '../../contexts/UsersContext'
 
 const Register = () => {
-    return (  
-        <StyledMain>
-                <form>
-                    <div>
-                        <label htmlFor="userName">Enter username: </label>
-                        <input type="text" id="userName" name="userName"/>
-                    </div>
-                    <div>
-                        <label htmlFor="email">Enter email: </label>
-                        <input type="text" id="email" name="email"/>
-                    </div>
-                    <div className="genderPicker">
-                        <label htmlFor="male">Male</label>
-                        <input type="radio" id="male" name="gender" value="male"/>
-                        <label htmlFor="female">Female</label>
-                        <input type="radio" id="female" name="gender" value="female"/>
-                        <label htmlFor="other">Other</label>
-                        <input type="radio" id="other" name="gender" value="other"/>
-                    </div>
-                    <div>
-                        <label htmlFor="password">Enter password: </label>
-                        <input type="password" id="password" name="password" />
-                    </div>
-                    <div>
-                        <label htmlFor="repeatPassword">Repeat password: </label>
-                        <input type="repeatPassword" id="repeatPassword" name="repeatPassword" />
-                    </div>
-                    <button>Register</button>
-                </form>
-        </StyledMain>
-    );
+  const navigate = useNavigate()
+
+  const [failedRegistration, setFailedRegistration] = useState(false)
+  const { users, dispatch, setCurrentUser } = useContext(UsersContext)
+
+  const values = {
+    email: '',
+    password: '',
+    passwordConfirm: '',
+  }
+
+  const validationShema = Yup.object({
+    email: Yup.string()
+      .email('This input must be a valid email')
+      .required('Input must be filled'),
+    password: Yup.string()
+      .required('Input must be filled'),
+    passwordConfirm: Yup.mixed()
+      .oneOf([Yup.ref('password')], 'Passwords must match')
+      .required('Input must be filled'),
+  })
+
+  const formik = useFormik({
+    initialValues: values,
+    validationSchema: validationShema,
+    onSubmit: (values) => {
+      const registerUser = users.find(user => user.email === values.email)
+
+      if (registerUser === undefined) {
+        setFailedRegistration(false)
+        setCurrentUser(values)
+
+        dispatch({
+          type: USERS_ACTION_TYPES.REGISTER,
+          email: values.email,
+          password: values.password,
+          passwordConfirm: values.passwordConfirm,
+        })
+        navigate('/home')
+      } else {
+        setFailedRegistration(true)
+      }
+    },
+
+  })
+  return (
+    <main>
+      <section className="register">
+        <form onSubmit={formik.handleSubmit}>
+          <h2>Register your account:</h2>
+          <div>
+            <label htmlFor="email">Email</label>
+            <input type="email" id="email" name='email'
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {
+              formik.touched.email && formik.errors.email &&
+              <span>{formik.errors.email}</span>
+            }
+          </div>
+
+          <div>
+            <label htmlFor="password">Password</label>
+            <input type="password" id="password" name='password'
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {
+              formik.touched.password && formik.errors.password &&
+              <span>{formik.errors.password}</span>
+            }
+          </div>
+          <div>
+            <label htmlFor="password_repeat">Repeat password</label>
+            <input type="password" name='passwordConfirm' id="passwordConfirm"
+              value={formik.values.passwordConfirm}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur} />
+            {
+              formik.touched.passwordConfirm && formik.errors.passwordConfirm &&
+              <span>{formik.errors.passwordConfirm}</span>
+            }
+          </div>
+
+          <input type="submit" value="Register" id="submit" />
+          {
+            failedRegistration && <span>This email is already used</span>
+          }
+        </form>
+      </section>
+    </main>
+  )
 }
- 
-export default Register;
+
+export default Register

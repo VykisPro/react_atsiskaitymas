@@ -1,0 +1,27 @@
+{
+  "posts": [
+    {
+      "userId": 10,
+      "postId": "49862213",
+      "postText": "“The world is a dangerous place, Elliott, not because of those who do evil, but because of those who look on and do nothing.” ― Mr. Robot",
+      "tags": [
+        "mr-robot"
+      ],
+      "date": "2023-05-15"
+    }
+  ],
+  "users": [
+    {
+      "email": "Testas123@gmail.com",
+      "password": "test123",
+      "passwordConfirm": "test123",
+      "id": 3
+    },
+    {
+      "email": "naujasvartotojas@gmail.com",
+      "password": "naujaspas",
+      "passwordConfirm": "naujaspas",
+      "id": 9
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import UsersContext from "../contexts/UsersContext";
 
 const StyledHeader = styled.header`
     display: flex;
@@ -8,6 +10,8 @@ const StyledHeader = styled.header`
     padding: 0 2rem;
     height: 170px;
     border-bottom: 3px solid black;
+    background-color:silver;
+    font-color:white;
     >img {
         height: 100px;
     }
@@ -23,6 +27,8 @@ const StyledHeader = styled.header`
 `;
 
 const Header = () => {
+    const {currentUser} = useContext(UsersContext);
+
     return ( 
         <StyledHeader>
             <img src="https://images.squarespace-cdn.com/content/v1/618bf212f2e0777ee00311d0/1643735360487-NRROQCEWCNRFYNLNGP6R/Evil_Corp_logo.png" alt="logo" />

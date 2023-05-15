@@ -1,4 +1,8 @@
 import styled from "styled-components";
+import FacebookIcon from '@mui/icons-material/Facebook';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import InstagramIcon from '@mui/icons-material/Instagram';
 
 
 const StyledFooter = styled.footer`
@@ -34,12 +38,12 @@ const Footer = () => {
         <StyledFooter>
             <p>© {new Date().getFullYear()} </p>
             <div>
-                <p>E Corp   !</p>
+                <p>E Corp</p>
                 <div>
-                 <p>ikona 1</p>
-                 <p>ikona 2</p>
-                 <p>ikona 3</p>
-                 <p>ikona 4</p>
+                    <FacebookIcon />
+                    <LinkedInIcon />
+                    <YouTubeIcon />
+                    <InstagramIcon />
                 </div>
             </div>
         </StyledFooter>
