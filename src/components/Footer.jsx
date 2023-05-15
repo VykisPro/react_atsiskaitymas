@@ -38,12 +38,21 @@ const Footer = () => {
         <StyledFooter>
             <p>© {new Date().getFullYear()} </p>
             <div>
+<<<<<<< HEAD
                 <p>E Corp</p>
                 <div>
                     <FacebookIcon />
                     <LinkedInIcon />
                     <YouTubeIcon />
                     <InstagramIcon />
+=======
+                <p>E Corp!</p>
+                <div>
+                 <p>ikona 1</p>
+                 <p>ikona 2</p>
+                 <p>ikona 3</p>
+                 <p>ikona 4</p>
+>>>>>>> registerpage
                 </div>
             </div>
         </StyledFooter>
